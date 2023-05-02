@@ -50,7 +50,7 @@ module RISCV_OTTER(
     .pc(pc)
     );
     
-    Memory OTTER_MEMORY (
+    /*Memory OTTER_MEMORY (
     .MEM_CLK (CLK),
     .MEM_RDEN1 (memRDEN1),
     .MEM_RDEN2 (memRDEN2),
@@ -63,8 +63,14 @@ module RISCV_OTTER(
     .IO_IN (IOBUS_IN),
     .IO_WR (IO_WR),
     .MEM_DOUT1 (ir),
-    .MEM_DOUT2 (dout2) );
+    .MEM_DOUT2 (dout2) );*/
     
+    //TODO mem_valid
+    OTTER_memory memory (.MEM_CLK(CLK),.MEM_ADDR1(pc),.MEM_ADDR2(result),.MEM_DIN2(rs2),
+                               .MEM_WRITE2(memWE2),.MEM_READ1(memRDEN1),.MEM_READ2(memRDEN2),
+                               .ERR(),.MEM_DOUT1(ir),.MEM_DOUT2(dout2),.IO_IN(IOBUS_IN),.IO_WR(IOBUS_WR),.MEM_SIZE(ir[13:12]),.MEM_SIGN(ir[14]),
+                               .MEM_VALID1(mem_valid1),.MEM_VALID2(mem_valid2),.rst(reset));
+
     mux_4t1_nb #(.n(32)) regMUX(
     .D0(pc+4), 
     .D1(CSR_reg), 
